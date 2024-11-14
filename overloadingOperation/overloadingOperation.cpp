@@ -1,30 +1,37 @@
-﻿#include <iostream>
+#include <iostream>
+#include <Windows.h>
 using namespace std;
+
 class Overcoat {
     string type;
     double price;
 public:
-    Overcoat() :type(" "), price(0) {}
-    void setType(const string& typee) {
-        this->type = typee;
+    Overcoat() : type(" "), price(0) {}
+
+    void setType(const string& type) {
+        this->type = type;
     }
 
     string getType() const {
         return type;
     }
-    void setPrice(const double& price) {
+
+    void setPrice(double price) {
         this->price = price;
     }
 
     double getPrice() const {
         return price;
     }
-    void print() {
-        cout << "\nType: " << getType() << "\nPrice: " << getPrice() << endl;
+
+    void print() const {
+        cout << "\nТип: " << type << "\nЦіна: " << price << endl;
     }
+
     friend bool operator==(const Overcoat& coat1, const Overcoat& coat2) {
         return coat1.type == coat2.type;
     }
+
     Overcoat& operator=(const Overcoat& other) {
         if (this != &other) {
             type = other.type;
@@ -32,82 +39,115 @@ public:
         }
         return *this;
     }
+
     friend bool operator>(const Overcoat& coat1, const Overcoat& coat2) {
-        if (coat1.type == coat2.type) {
-            return coat1.price > coat2.price;
-        }
+        return coat1.price > coat2.price;
     }
 };
+
 class Flat {
-    int S;
+    int area;
     double price;
 public:
-    Flat() :S(0), price(0) {}
-    void setS(const int& SS) {
-        this->S = SS;
+    Flat() : area(0), price(0) {}
+
+    void setArea(int area) {
+        this->area = area;
     }
 
-    int getS() const {
-        return S;
+    int getArea() const {
+        return area;
     }
-    void setPrice(const double& price) {
+
+    void setPrice(double price) {
         this->price = price;
     }
 
     double getPrice() const {
         return price;
     }
-    void print() {
-        cout << "\nPlosha: " << getS() << "\nPrice: " << getPrice() << endl;
+
+    void print() const {
+        cout << "\nПлоща: " << area << "\nЦіна: " << price << endl;
     }
+
     friend bool operator==(const Flat& flat1, const Flat& flat2) {
-        return flat1.S == flat2.S;
+        return flat1.area == flat2.area;
     }
+
     Flat& operator=(const Flat& other) {
         if (this != &other) {
-            S = other.S;
+            area = other.area;
             price = other.price;
         }
         return *this;
     }
+
     friend bool operator>(const Flat& flat1, const Flat& flat2) {
-        if (flat1.S == flat2.S) {
-            return flat1.price > flat2.price;
-        }
+        return flat1.price > flat2.price;
     }
 };
-int main()
-{
-    Overcoat coat1;
-    coat1.setType("Sweater");
+
+int main() {
+    SetConsoleCP(1251);
+    SetConsoleOutputCP(1251);
+
+
+    Overcoat coat1, coat2;
+    coat1.setType("Куртка");
     coat1.setPrice(130);
-    Overcoat coat2;
-    coat2.setType("Sweater");
+    coat2.setType("Куртка");
     coat2.setPrice(150);
-    cout << "Overcoats: " << endl;
+
+    cout << "Пальто:" << endl;
     coat1.print();
     coat2.print();
-    bool a = coat1 == coat2, b = coat1 > coat2;
-    (a == 1) ? cout << "\nThey both have same type: " << coat1.getType() << endl : cout << "\nThey both haven`t same type" << endl;
-    (b == 1) ? cout << "First is more expencive than second " << endl : cout << "Second is more expencive than first " << endl;
-    Overcoat coat3;
-    coat3 = coat2;
+
+    if (coat1 == coat2) {
+        cout << "\nУ них одинаковий тип: " << coat1.getType() << endl;
+    }
+    else {
+        cout << "\nУ них різні типи" << endl;
+    }
+
+    if (coat1 > coat2) {
+        cout << "Перше пальто дорожче за друге" << endl;
+    }
+    else {
+        cout << "Друге пальто дорожче за перше" << endl;
+    }
+
+    Overcoat coat3 = coat2;
+    cout << "\nКопія другого пальто:" << endl;
     coat3.print();
 
-
-    Flat flat1;
-    flat1.setS(32);
+    Flat flat1, flat2;
+    flat1.setArea(32);
     flat1.setPrice(130);
-    Flat flat2;
-    flat2.setS(45);
+    flat2.setArea(45);
     flat2.setPrice(150);
-    cout << "\n\nFlats: " << endl;
+
+    cout << "\n\nКвартири:" << endl;
     flat1.print();
     flat2.print();
-    bool c = flat1 == flat2, d = flat1 > flat2;
-    (c == 1) ? cout << "\nThey both have same ploshu: " << flat1.getS() << endl : cout << "\nThey both haven`t same ploshu" << endl;
-    (d == 1) ? cout << "First is more expencive than second " << endl : cout << "Second is more expencive than first " << endl;
-    Flat flat3;
-    flat3 = flat2;
+
+    if (flat1 == flat2) {
+        cout << "\nУ них одинаковий розмір: " << flat1.getArea() << " кв.м." << endl;
+    }
+    else {
+        cout << "\nУ них різний розмір" << endl;
+    }
+
+    if (flat1 > flat2) {
+        cout << "Перша квартира дорожча за другу" << endl;
+    }
+    else {
+        cout << "Друга квартира дорожча за першу" << endl;
+    }
+
+    Flat flat3 = flat2;
+    cout << "\nКопія другої квартири:" << endl;
     flat3.print();
+
+    return 0;
 }
